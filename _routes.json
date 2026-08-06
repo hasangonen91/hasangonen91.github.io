@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "include": ["/*"],
+  "exclude": [
+    "/index.html",
+    "/favicon.ico",
+    "/favicon-*.png",
+    "/apple-touch-icon.png",
+    "/sitemap.xml",
+    "/robots.txt",
+    "/screenshots/*",
+    "/assets/*",
+    "/serviceos-logo*",
+    "/serviceos-afis.gif",
+    "/_headers"
+  ]
+}

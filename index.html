@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="serviceOS — İşletmen için online randevu sistemi. Randevu takvimi, müşteri ve gelir yönetimi tek uygulamada. Ücretsiz başla.">
+<meta name="theme-color" content="#0b1020">
+<meta name="robots" content="index, follow">
+<title>serviceOS — Online Randevu Sistemi</title>
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #ffffff; color: #1e293b; line-height: 1.6; overflow-x: hidden; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+::selection { background: rgba(129,140,248,0.2); }
+.container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+/* ===== HEADER ===== */
+.header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid #eef2f7; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+.logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em; color: #0f172a; }
+.logo-mark { width: 34px; height: 34px; border-radius: 10px; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.95rem; }
+.nav { display: flex; align-items: center; gap: 32px; }
+.nav a { color: #64748b; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+.nav a:hover { color: #0f172a; }
+.header-cta { display: flex; align-items: center; gap: 12px; }
+.btn-ghost { color: #475569; font-size: 0.9rem; font-weight: 600; transition: color 0.2s; }
+.btn-ghost:hover { color: #0f172a; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 12px; font-weight: 600; font-size: 0.92rem; transition: all 0.2s; cursor: pointer; border: none; }
+.btn-dark { background: #0f172a; color: #fff; }
+.btn-dark:hover { background: #1e293b; transform: translateY(-1px); }
+.btn-indigo { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #fff; }
+.btn-indigo:hover { transform: translateY(-1px); box-shadow: 0 10px 30px rgba(99,102,241,0.35); }
+.btn-outline { background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.15); }
+.btn-outline:hover { background: rgba(255,255,255,0.14); }
+.btn-lg { padding: 16px 32px; font-size: 1rem; border-radius: 14px; }
+
+/* ===== HERO ===== */
+.hero { position: relative; background: #0b1020; color: #fff; overflow: hidden; }
+.hero-bg-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px); background-size: 56px 56px; }
+.hero-bg-glow { position: absolute; top: -20%; right: -10%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(139,92,246,0.25), transparent 60%); pointer-events: none; }
+.hero-bg-glow2 { position: absolute; bottom: -30%; left: -10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(99,102,241,0.18), transparent 60%); pointer-events: none; }
+.hero-inner { position: relative; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center; padding: 88px 24px 96px; max-width: 1120px; margin: 0 auto; }
+.hero-badge { display: inline-flex; align-items: center; gap: 10px; padding: 8px 16px; border-radius: 100px; background: rgba(129,140,248,0.12); border: 1px solid rgba(129,140,248,0.3); color: #a5b4fc; font-size: 0.85rem; font-weight: 600; margin-bottom: 28px; }
+.hero-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: #818cf8; animation: pulse 2s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.75); } }
+.hero h1 { font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.12; margin-bottom: 22px; }
+.hero h1 .grad { background: linear-gradient(120deg, #a5b4fc, #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.hero p { font-size: 1.1rem; color: #94a3b8; max-width: 480px; margin-bottom: 36px; }
+.hero-cta { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 40px; }
+.hero-trust { display: flex; gap: 24px; color: #64748b; font-size: 0.88rem; flex-wrap: wrap; }
+.hero-trust span { display: inline-flex; align-items: center; gap: 8px; }
+.hero-trust .check { color: #a5b4fc; font-weight: 800; }
+.hero-visual { position: relative; display: flex; justify-content: center; }
+.hero-glow { position: absolute; inset: 20px; background: radial-gradient(circle, rgba(139,92,246,0.3), transparent 70%); border-radius: 50%; filter: blur(30px); }
+.hero-img { position: relative; width: 300px; border-radius: 24px; box-shadow: 0 40px 80px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); }
+
+/* ===== TRUST STRIP ===== */
+.strip { border-bottom: 1px solid #eef2f7; padding: 22px 0; background: #fff; }
+.strip-inner { display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; color: #64748b; font-size: 0.9rem; }
+.strip-inner b { color: #0f172a; font-weight: 700; }
+
+/* ===== SECTION COMMON ===== */
+.section { padding: 96px 0; }
+.section-alt { background: #f8fafc; }
+.section-dark { background: #0b1020; color: #fff; }
+.section-head { text-align: center; max-width: 640px; margin: 0 auto 64px; }
+.eyebrow { display: inline-block; color: #6366f1; font-weight: 700; font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px; }
+.section-dark .eyebrow { color: #a5b4fc; }
+.section-head h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 16px; color: #0f172a; line-height: 1.2; }
+.section-dark .section-head h2 { color: #fff; }
+.section-head p { color: #64748b; font-size: 1.05rem; }
+.section-dark .section-head p { color: #94a3b8; }
+
+/* ===== FEATURES ===== */
+.features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.feature-card { padding: 32px; border-radius: 20px; background: #f8fafc; border: 1px solid #eef2f7; transition: all 0.3s; }
+.feature-card:hover { background: #fff; border-color: #c7d2fe; transform: translateY(-4px); box-shadow: 0 20px 50px rgba(15,23,42,0.08); }
+.feature-icon { width: 48px; height: 48px; border-radius: 14px; background: #eef2ff; color: #6366f1; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+.feature-icon svg { width: 24px; height: 24px; }
+.feature-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; color: #0f172a; }
+.feature-card p { color: #64748b; font-size: 0.95rem; }
+
+/* ===== STEPS ===== */
+.steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.step-card { background: #fff; border-radius: 20px; border: 1px solid #eef2f7; padding: 32px; position: relative; }
+.step-num { font-size: 3rem; font-weight: 900; color: #eef2ff; line-height: 1; margin-bottom: 20px; letter-spacing: -0.03em; }
+.step-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; color: #0f172a; }
+.step-card p { color: #64748b; font-size: 0.95rem; }
+
+/* ===== FEATURE SHOWCASE ===== */
+.showcase { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; margin-bottom: 80px; }
+.showcase:last-child { margin-bottom: 0; }
+.showcase.flip .showcase-text { order: 2; }
+.showcase.flip .showcase-img { order: 1; }
+.showcase-text .eyebrow { margin-bottom: 10px; }
+.showcase-text h3 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 18px; color: #0f172a; }
+.showcase-text p { color: #64748b; font-size: 1.05rem; margin-bottom: 24px; max-width: 460px; }
+.check-list { display: flex; flex-direction: column; gap: 14px; }
+.check-item { display: flex; align-items: center; gap: 12px; color: #334155; font-size: 0.98rem; }
+.check-dot { width: 22px; height: 22px; border-radius: 50%; background: #6366f1; color: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.check-dot svg { width: 13px; height: 13px; }
+.showcase-img { display: flex; justify-content: center; }
+.showcase-img img { width: 240px; border-radius: 20px; box-shadow: 0 30px 60px rgba(15,23,42,0.15); }
+
+/* ===== CUSTOMER PAGE (dark) ===== */
+.customer-wrap { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 64px; align-items: center; }
+.customer-wrap .showcase-text h3 { color: #fff; }
+.customer-wrap .showcase-text p { color: #94a3b8; }
+.customer-wrap .check-item { color: #cbd5e1; }
+.customer-wrap .check-dot { background: #818cf8; }
+
+/* ===== SECTORS ===== */
+.sectors-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.sector-card { padding: 28px; border-radius: 18px; background: #f8fafc; border: 1px solid #eef2f7; transition: all 0.3s; }
+.sector-card:hover { background: #fff; border-color: #c7d2fe; transform: translateY(-4px); box-shadow: 0 16px 40px rgba(15,23,42,0.08); }
+.sector-emoji { font-size: 2rem; margin-bottom: 14px; }
+.sector-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; color: #0f172a; }
+.sector-card p { color: #94a3b8; font-size: 0.85rem; }
+
+/* ===== FAQ ===== */
+.faq-wrap { max-width: 720px; margin: 0 auto; }
+.faq-item { background: #fff; border: 1px solid #eef2f7; border-radius: 16px; margin-bottom: 14px; overflow: hidden; transition: all 0.3s; }
+.faq-item[open] { box-shadow: 0 12px 40px rgba(15,23,42,0.08); border-color: #e0e7ff; }
+.faq-q { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 22px 24px; cursor: pointer; font-weight: 600; color: #0f172a; font-size: 1rem; list-style: none; }
+.faq-q::-webkit-details-marker { display: none; }
+.faq-plus { width: 24px; height: 24px; border-radius: 50%; background: #f1f5f9; color: #64748b; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform 0.3s, background 0.3s; font-size: 1.1rem; font-weight: 600; }
+.faq-item[open] .faq-plus { transform: rotate(45deg); background: #e0e7ff; color: #6366f1; }
+.faq-a { padding: 0 24px 22px; color: #64748b; font-size: 0.95rem; line-height: 1.7; }
+
+/* ===== CTA ===== */
+.cta { position: relative; background: #0b1020; overflow: hidden; text-align: center; }
+.cta-glow { position: absolute; bottom: -40%; left: 50%; transform: translateX(-50%); width: 700px; height: 500px; background: radial-gradient(circle, rgba(139,92,246,0.25), transparent 60%); pointer-events: none; }
+.cta-inner { position: relative; max-width: 640px; margin: 0 auto; padding: 96px 24px; }
+.cta h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 20px; color: #fff; }
+.cta h2 .grad { background: linear-gradient(120deg, #a5b4fc, #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.cta p { color: #94a3b8; font-size: 1.1rem; margin-bottom: 36px; }
+.cta-note { display: flex; justify-content: center; gap: 20px; margin-top: 28px; color: #64748b; font-size: 0.88rem; flex-wrap: wrap; }
+
+/* ===== FOOTER ===== */
+.footer { background: #020617; color: #94a3b8; padding: 64px 0 40px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 48px; }
+.footer-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; color: #fff; font-size: 1.1rem; margin-bottom: 14px; }
+.footer-logo .logo-mark { background: #fff; color: #0f172a; }
+.footer-desc { font-size: 0.88rem; max-width: 260px; line-height: 1.7; }
+.footer h4 { color: #fff; font-size: 0.9rem; font-weight: 600; margin-bottom: 18px; }
+.footer-links { display: flex; flex-direction: column; gap: 10px; }
+.footer-links a { font-size: 0.88rem; transition: color 0.2s; }
+.footer-links a:hover { color: #fff; }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.07); padding-top: 28px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 0.85rem; color: #475569; }
+
+/* ===== REVEAL ===== */
+.reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+.reveal-d3 { transition-delay: 0.3s; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 960px) {
+  .nav { display: none; }
+  .hero-inner { grid-template-columns: 1fr; text-align: center; padding: 72px 24px; }
+  .hero p { margin-left: auto; margin-right: auto; }
+  .hero-cta, .hero-trust { justify-content: center; }
+  .hero-visual { order: -1; margin-bottom: 24px; }
+  .hero-img { width: 220px; }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .steps-grid { grid-template-columns: 1fr; }
+  .showcase { grid-template-columns: 1fr; gap: 32px; }
+  .showcase.flip .showcase-text { order: 1; }
+  .showcase.flip .showcase-img { order: 2; }
+  .showcase-text, .showcase-text p { text-align: center; margin-left: auto; margin-right: auto; }
+  .check-list { align-items: center; }
+  .customer-wrap { grid-template-columns: 1fr; }
+  .sectors-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .section { padding: 72px 0; }
+}
+@media (max-width: 560px) {
+  .features-grid { grid-template-columns: 1fr; }
+  .sectors-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .btn-lg { padding: 14px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+  <div class="container header-inner">
+    <a href="/" class="logo"><span class="logo-mark">S</span> serviceOS</a>
+    <nav class="nav">
+      <a href="#ozellikler">Özellikler</a>
+      <a href="#nasil-calisir">Nasıl çalışır?</a>
+      <a href="#sektorler">Sektörler</a>
+      <a href="#sss">S.S.S.</a>
+    </nav>
+    <div class="header-cta">
+      <a href="https://wa.me/905415029754?text=Merhaba,%20serviceOS%20%C3%BCcretsiz%20hesab%C4%B1m%C4%B1%20olu%C5%9Fturmak%20istiyorum" class="btn btn-dark" target="_blank" rel="noopener noreferrer">Ücretsiz başla</a>
+    </div>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-bg-glow"></div>
+  <div class="hero-bg-glow2"></div>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge"><span class="dot"></span> Salonlar ve Kuaförler için Randevu Yönetimi</div>
+      <h1>Randevular artık <span class="grad">kendiliğinden gelsin.</span></h1>
+      <p>Müşterilerin telefonla uğraşmadan, kendi uygun saatini seçerek randevu alır. Sen sadece onaylarsın, işin büyüsün.</p>
+      <div class="hero-cta">
+        <a href="https://wa.me/905415029754?text=Merhaba,%20serviceOS%20%C3%BCcretsiz%20hesab%C4%B1m%C4%B1%20olu%C5%9Fturmak%20istiyorum" target="_blank" rel="noopener noreferrer" class="btn btn-indigo btn-lg">Hemen başla <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+        <a href="#nasil-calisir" class="btn btn-outline btn-lg">Nasıl çalışır?</a>
+      </div>
+      <div class="hero-trust">
+        <span><span class="check">✓</span> Kayıt tamamen ücretsiz</span>
+        <span><span class="check">✓</span> Kurulum gerekmez</span>
+        <span><span class="check">✓</span> Komisyon yok</span>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-glow"></div>
+      <img class="hero-img" src="/screenshots/pro3_mockup_02_dashboard.png" alt="serviceOS Dashboard" width="300" height="600">
+    </div>
+  </div>
+</section>
+
+<!-- ===== TRUST STRIP ===== -->
+<section class="strip">
+  <div class="container strip-inner">
+    <b>Binlerce işletme takvimini düzene soktu:</b>
+    <span>✦ Kuaför</span>
+    <span>✦ Güzellik Salonu</span>
+    <span>✦ Berber</span>
+    <span>✦ Masaj &amp; Spa</span>
+    <span>✦ Diş Kliniği</span>
+    <span>✦ Pet Kuaförü</span>
+  </div>
+</section>
+
+<!-- ===== FEATURES ===== -->
+<section id="ozellikler" class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Neler sunuyoruz?</span>
+      <h2>İşletmeni tek uygulamadan yönet</h2>
+      <p>Randevudan gelire, müşteriden ekibe kadar ihtiyacın olan her şey serviceOS'ta.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div>
+        <h3>Akıllı takvim</h3>
+        <p>Çakışma olmadan slot yönetimi. Personel bazlı takvim ile herkes kendi saatini görür.</p>
+      </div>
+      <div class="feature-card reveal reveal-d1">
+        <div class="feature-icon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg></div>
+        <h3>Müşteri profilleri</h3>
+        <p>VIP, düzenli ve yeni müşteriler otomatik ayrılır. Geçmiş, harcama ve notlar tek yerde.</p>
+      </div>
+      <div class="feature-card reveal reveal-d2">
+        <div class="feature-icon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg></div>
+        <h3>Randevu sayfan</h3>
+        <p>Markana özel link. Müşterilerin hizmet, personel ve saat seçerek kendi randevusunu alır.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></div>
+        <h3>Anlık bildirim</h3>
+        <p>Yeni, değişen veya iptal edilen randevulardan anında haberdar ol. Telefon derdi biter.</p>
+      </div>
+      <div class="feature-card reveal reveal-d1">
+        <div class="feature-icon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+        <h3>Esnek çalışma saatleri</h3>
+        <p>Hizmete ve personele göre farklı süre, mola ve müsaitlik. Her şey senin kontrolünde.</p>
+      </div>
+      <div class="feature-card reveal reveal-d2">
+        <div class="feature-icon"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div>
+        <h3>Gelir takibi</h3>
+        <p>Günlük ciro, alacaklar ve ödeme yöntemleri otomatik hesaplanır. Hesap kitap karışmaz.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STEPS ===== -->
+<section id="nasil-calisir" class="section section-alt">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Başlamak çok kolay</span>
+      <h2>5 dakikada işletmen online</h2>
+      <p>Teknik bilgi gerekmez, adım adım ilerlersin.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card reveal">
+        <div class="step-num">01</div>
+        <h3>Kayıt ol, işletmeni kur</h3>
+        <p>Hizmetlerini, çalışanlarını ve çalışma saatlerini gir. Birkaç dakikada hazır.</p>
+      </div>
+      <div class="step-card reveal reveal-d1">
+        <div class="step-num">02</div>
+        <h3>Linkini paylaş</h3>
+        <p>WhatsApp'ta, Instagram'da, kapındaki kare kodda. Müşterin tıklar, randevu alır.</p>
+      </div>
+      <div class="step-card reveal reveal-d2">
+        <div class="step-num">03</div>
+        <h3>Randevuları takip et</h3>
+        <p>Gelen talepleri onayla, takvimin senkronize kalsın. Boş koltuk kalmaz.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FEATURE SHOWCASE ===== -->
+<section class="section">
+  <div class="container">
+    <div class="showcase reveal">
+      <div class="showcase-text">
+        <span class="eyebrow">serviceOS</span>
+        <h3>Randevuların tek bakışta</h3>
+        <p>Günlük, haftalık ve aylık görünümde tüm takvimin önünde. Hangi koltuğun kimde, ne zaman boşalacak — anında görürsün.</p>
+        <div class="check-list">
+          <div class="check-item"><span class="check-dot"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span> Personel bazlı görünüm</div>
+          <div class="check-item"><span class="check-dot"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span> Otomatik çakışma kontrolü</div>
+          <div class="check-item"><span class="check-dot"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span> Durum takibi: bekliyor, onaylandı, tamamlandı</div>
+        </div>
+      </div>
+      <div class="showcase-img">
+        <img src="/screenshots/pro3_mockup_03_calendar.png" alt="serviceOS Takvim" width="240" height="480">
+      </div>
+    </div>
+
+    <div class="showcase flip reveal">
+      <div class="showcase-text">
+        <span class="eyebrow">serviceOS</span>
+        <h3>Her müşterin tanıdık</h3>
+        <p>Kim ne zaman geldi, ne kadar harcadı, neyi seviyor — hepsi müşteri kartında. Düzenli misafirin unutulmaz.</p>
+        <div class="check-list">
+          <div class="check-item"><span class="check-dot"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span> Geçmiş randevu ve harcama</div>
+          <div class="check-item"><span class="check-dot"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span> Özel notlar ve tercihler</div>
+          <div class="check-item"><span class="check-dot"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span> Otomatik müşteri kategorileri</div>
+        </div>
+      </div>
+      <div class="showcase-img">
+        <img src="/screenshots/pro3_mockup_04_customers.png" alt="serviceOS Müşteriler" width="240" height="480">
+      </div>
+    </div>
+
+    <div class="showcase reveal">
+      <div class="showcase-text">
+        <span class="eyebrow">serviceOS</span>
+        <h3>Paran nerede, ne kadar — net</h3>
+        <p>Günlük hasılat, bekleyen tahsilat ve ödeme yöntemleri otomatik derlenir. Ay sonu hesap derdi biter.</p>
+        <div class="check-list">
+          <div class="check-item"><span class="check-dot"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span> Günlük ciro özeti</div>
+          <div class="check-item"><span class="check-dot"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span> Alacak takibi (Pay Later)</div>
+          <div class="check-item"><span class="check-dot"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span> Ödeme yöntemi analizi</div>
+        </div>
+      </div>
+      <div class="showcase-img">
+        <img src="/screenshots/pro3_mockup_05_finance.png" alt="serviceOS Finans" width="240" height="480">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CUSTOMER PAGE (dark) ===== -->
+<section class="section section-dark">
+  <div class="container customer-wrap">
+    <div class="showcase-img reveal">
+      <img style="box-shadow:0 30px 60px rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.08)" src="/screenshots/pro3_mockup_01_launch.png" alt="Müşteri Randevu Sayfası" width="240" height="480">
+    </div>
+    <div class="showcase-text reveal reveal-d1">
+      <span class="eyebrow">Müşteri tarafı</span>
+      <h3>Randevu almak hiç bu kadar kolay olmamıştı</h3>
+      <p>Paylaştığın linke tıklayan müşterin; hizmeti, personeli ve saati kendisi seçer. Telefonla aramak, mesaj yazmak yok.</p>
+      <div class="check-list">
+        <div class="check-item"><span class="check-dot"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span> Hizmet, personel ve saat seçimi</div>
+        <div class="check-item"><span class="check-dot"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span> Mobil uyumlu, sade tasarım</div>
+        <div class="check-item"><span class="check-dot"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span> Anında onay bildirimi</div>
+        <div class="check-item"><span class="check-dot"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span> WhatsApp ve Instagram'da paylaşım</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTORS ===== -->
+<section id="sektorler" class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Sektörler</span>
+      <h2>Hizmet sektörüne özel çözüm</h2>
+      <p>İster tek başına çalış, ister ekibinle; serviceOS işinin düzenine uyar.</p>
+    </div>
+    <div class="sectors-grid">
+      <div class="sector-card reveal"><div class="sector-emoji">✂️</div><h3>Kuaför &amp; Berber</h3><p>Koltuk ve personel planı</p></div>
+      <div class="sector-card reveal reveal-d1"><div class="sector-emoji">💅</div><h3>Güzellik Salonu</h3><p>Uzman ve seans takvimi</p></div>
+      <div class="sector-card reveal reveal-d2"><div class="sector-emoji">🧖</div><h3>Cilt Bakımı</h3><p>Seans ve mola düzeni</p></div>
+      <div class="sector-card reveal reveal-d3"><div class="sector-emoji">💆</div><h3>Masaj &amp; Spa</h3><p>Terapist ve oda planı</p></div>
+      <div class="sector-card reveal"><div class="sector-emoji">🦷</div><h3>Diş Kliniği</h3><p>Hekim ve asistan programı</p></div>
+      <div class="sector-card reveal reveal-d1"><div class="sector-emoji">🐾</div><h3>Pet Kuaförü</h3><p>Hizmet ve evcil dost takvimi</p></div>
+      <div class="sector-card reveal reveal-d2"><div class="sector-emoji">🎓</div><h3>Özel Ders</h3><p>Eğitmen ve ders programı</p></div>
+      <div class="sector-card reveal reveal-d3"><div class="sector-emoji">🏋️</div><h3>Fitness Stüdyosu</h3><p>Antrenör ve seans planı</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section id="sss" class="section section-alt">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Sıkça sorulanlar</span>
+      <h2>Aklına takılanları yanıtladık</h2>
+      <p>Başka sorun varsa WhatsApp'tan yaz, hemen dönelim.</p>
+    </div>
+    <div class="faq-wrap">
+      <details class="faq-item reveal" open>
+        <summary class="faq-q">serviceOS gerçekten ücretsiz mi? <span class="faq-plus">+</span></summary>
+        <p class="faq-a">Evet. Kayıt, randevu sayfası ve temel yönetim özellikleri için ücret almayız. Kredi kartı istenmez, randevu başına komisyon yoktur.</p>
+      </details>
+      <details class="faq-item reveal">
+        <summary class="faq-q">Kurulum için teknik bilgi gerekir mi? <span class="faq-plus">+</span></summary>
+        <p class="faq-a">Hayır. Kayıt sonrası hizmetlerini ve çalışma saatlerini gir, linkini paylaşmaya hazırsın. Adımlar sade ve anlaşılırdır.</p>
+      </details>
+      <details class="faq-item reveal">
+        <summary class="faq-q">Müşterilerim nasıl randevu alacak? <span class="faq-plus">+</span></summary>
+        <p class="faq-a">Sana özel linki WhatsApp, Instagram biyografisi veya işletme profiline eklersin. Müşterin hizmet, personel ve saat seçerek dakikalar içinde randevusunu tamamlar.</p>
+      </details>
+      <details class="faq-item reveal">
+        <summary class="faq-q">Birden fazla çalışan ekleyebilir miyim? <span class="faq-plus">+</span></summary>
+        <p class="faq-a">Evet. Her çalışana kendi hizmetlerini, çalışma saatlerini, mola ve izinlerini tanımlarsın. Takvim otomatik olarak çakışmayı önler.</p>
+      </details>
+      <details class="faq-item reveal">
+        <summary class="faq-q">İptal ve değişikliklerde ne olur? <span class="faq-plus">+</span></summary>
+        <p class="faq-a">Müşteri randevusunu değiştirdiğinde veya iptal ettiğinde anında bildirim alırsın. Boşalan saat senin onayınla tekrar satışa açılır.</p>
+      </details>
+      <details class="faq-item reveal">
+        <summary class="faq-q">Verilerim güvende mi? <span class="faq-plus">+</span></summary>
+        <p class="faq-a">Müşteri ve randevu verilerin güvenli altyapıda saklanır. Yalnızca sen ve yetki verdiğin çalışanlar erişebilir.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta">
+  <div class="cta-glow"></div>
+  <div class="cta-inner reveal">
+    <h2>Takvimini <span class="grad">düzene sok.</span></h2>
+    <p>Ücretsiz başla, beş dakikada işletmen online olsun. Soruların varsa WhatsApp'tan yaz.</p>
+    <a href="https://wa.me/905415029754?text=Merhaba,%20serviceOS%20%C3%BCcretsiz%20hesab%C4%B1m%C4%B1%20olu%C5%9Fturmak%20istiyorum" target="_blank" rel="noopener noreferrer" class="btn btn-indigo btn-lg">Ücretsiz hesabını oluştur <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+    <div class="cta-note">
+      <span>Kredi kartı gerekmez</span><span>•</span><span>Kurulum ücreti yok</span><span>•</span><span>Komisyon yok</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo"><span class="logo-mark">S</span> serviceOS</div>
+        <p class="footer-desc">Salonlar ve kuaförler için sade, güçlü ve ücretsiz randevu yönetimi.</p>
+      </div>
+      <div>
+        <h4>Ürün</h4>
+        <div class="footer-links">
+          <a href="#ozellikler">Özellikler</a>
+          <a href="#nasil-calisir">Nasıl çalışır?</a>
+          <a href="#sektorler">Sektörler</a>
+          <a href="#sss">S.S.S.</a>
+        </div>
+      </div>
+      <div>
+        <h4>Başvuru</h4>
+        <div class="footer-links">
+          <a href="https://wa.me/905415029754?text=Merhaba,%20serviceOS%20%C3%BCcretsiz%20hesab%C4%B1m%C4%B1%20olu%C5%9Fturmak%20istiyorum" target="_blank" rel="noopener noreferrer">Ücretsiz Başla</a>
+          <a href="https://wa.me/905415029754" target="_blank" rel="noopener noreferrer">WhatsApp Destek</a>
+        </div>
+      </div>
+      <div>
+        <h4>İletişim</h4>
+        <div class="footer-links">
+          <a href="mailto:hasangonen91@gmail.com">hasangonen91@gmail.com</a>
+          <a href="https://wa.me/905415029754" target="_blank" rel="noopener noreferrer">+90 541 502 97 54</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 serviceOS. Tüm hakları saklıdır.</span>
+      <span>Türkiye'deki işletmeler için özenle geliştirildi.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(function (el) {
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /screenshots/
+Disallow: /assets/
+
+Sitemap: https://customer-web.mkizil916.workers.dev/sitemap.xml
